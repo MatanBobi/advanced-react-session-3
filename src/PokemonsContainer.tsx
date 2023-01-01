@@ -17,7 +17,9 @@ export function PokemonsContainer({
   const { isOnline } = useNetworkStatus();
   const forceRerender = useForceRerender();
 
-  let visiblePokemons = matchSorter(pokemons, searchTerm, { keys: ["name"] });
+  let visiblePokemons = pokemons.length
+    ? matchSorter(pokemons, searchTerm, { keys: ["name"] })
+    : [];
 
   const handlePokemonCaught = (pokemon: Pokemon, caught: boolean) => {
     setCaughtPokemons((prev) => {
