@@ -1,4 +1,4 @@
-# Advanced React Session 2
+# Advanced React Session 3
 
 ## Step 1
 
