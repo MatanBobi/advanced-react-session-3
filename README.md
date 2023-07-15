@@ -1,5 +1,7 @@
 # Advanced React Session 3
 
+To start, run `npm install` and then `npm run dev`.
+
 ## Step 1
 
 Test our app for the following use cases:
