@@ -1,6 +1,7 @@
 # Advanced React Session 3
 
-To start, run `npm install` and then `npm run dev`.
+To start, run `npm install` and then `npm run dev`.  
+Solution for this exercise was provided by [@hpsharon](https://github.com/hpsharon)
 
 ## Step 1
 
