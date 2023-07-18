@@ -5,11 +5,6 @@ import { ModalButton } from "./Modal/ModalButton";
 import { ModalContent } from "./Modal/ModalContent";
 import { PokemonModal } from "./PokemonModal";
 
-function sleep(ms: number) {
-  const start = Date.now();
-  while (Date.now() < start + ms);
-}
-
 export function PokemonItem({
   pokemon,
   onChange,
@@ -21,7 +16,6 @@ export function PokemonItem({
   isCaught: boolean;
   disabled: boolean;
 }) {
-  sleep(1);
   return (
     <div className="pokemon-row">
       <span
