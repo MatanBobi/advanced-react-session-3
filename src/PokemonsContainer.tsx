@@ -68,5 +68,5 @@ export function PokemonsContainer({
 
 export const PokemonsContainerWithLoader = withLoader(
   PokemonsContainer,
-  "https://pokeapi.co/api/v2/pokemon?limit=1154"
+  "https://pokeapi.co/api/v2/pokemon?limit=1281"
 );
