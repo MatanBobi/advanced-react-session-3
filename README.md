@@ -5,10 +5,7 @@ Solution for this exercise was provided by [@hpsharon](https://github.com/hpshar
 
 ## Step 1
 
-Test our app for the following use cases:
-
-1. A Pokemon will be marked as caught if we click on the checkbox.
-2. A modal opens once clicking on the information modal button.
+Use any state management of your choice (Zustand, Redux-Toolkit, React's useReducer + Context) to store the pokemons in our app
 
 ## Step 2
 
