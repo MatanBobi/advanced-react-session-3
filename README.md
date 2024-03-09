@@ -5,7 +5,7 @@ Solution for this exercise was provided by [@hpsharon](https://github.com/hpshar
 
 ## Step 1
 
-Use any state management of your choice (Zustand, Redux-Toolkit, React's useReducer + Context) to store the pokemons in our app
+Use any state management of your choice (Zustand, Redux-Toolkit, React's useReducer + Context) to store the pokemons in our app.
 
 ## Step 2
 
