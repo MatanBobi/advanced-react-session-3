@@ -1,22 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { matchSorter } from "match-sorter";
+import { create } from "zustand";
 import { Header } from "./Header";
 import { PokemonItem } from "./PokemonItem";
 import { Pokemon } from "./types";
 import { useNetworkStatus } from "./useNetworkStatus";
-import { withLoader } from "./withLoader";
 import { useForceRerender } from "./useForceRerender";
 
-export function PokemonsContainer({
-  data: { results: pokemons },
-}: {
-  data: { results: Pokemon[] };
-}) {
+interface PokemonState {
+  pokemons: Pokemon[];
+  isLoading: boolean;
+  fetchPokemons: () => Promise<void>;
+}
+
+const usePokemonsStore = create<PokemonState>((set) => ({
+  pokemons: [],
+  isLoading: false,
+  fetchPokemons: async () => {
+    set({ isLoading: true });
+    const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=10");
+    const data = await response.json();
+    set({ pokemons: data.results, isLoading: false });
+  },
+}));
+
+export function PokemonsContainer() {
+  const isLoading = usePokemonsStore((state) => state.isLoading);
+  const pokemons = usePokemonsStore((state) => state.pokemons);
+  const fetchPokemons = usePokemonsStore((state) => state.fetchPokemons);
   const [caughtPokemons, setCaughtPokemons] = useState<Pokemon[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const { isOnline } = useNetworkStatus();
   const forceRerender = useForceRerender();
 
+  useEffect(() => {
+    fetchPokemons();
+  }, []);
   const visiblePokemons = React.useMemo(() => {
     return pokemons.length
       ? matchSorter(pokemons, searchTerm, { keys: ["name"] })
@@ -39,6 +58,10 @@ export function PokemonsContainer({
     },
     [pokemons]
   );
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
@@ -74,8 +97,3 @@ export function PokemonsContainer({
     </div>
   );
 }
-
-export const PokemonsContainerWithLoader = withLoader(
-  PokemonsContainer,
-  "https://pokeapi.co/api/v2/pokemon?limit=10"
-);
