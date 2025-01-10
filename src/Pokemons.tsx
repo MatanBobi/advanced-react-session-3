@@ -3,18 +3,29 @@ import { matchSorter } from "match-sorter";
 import { Header } from "./Header";
 import { PokemonItem } from "./PokemonItem";
 import { Pokemon } from "./types";
-import { useNetworkStatus } from "./useNetworkStatus";
 import { withLoader } from "./withLoader";
 import { useForceRerender } from "./useForceRerender";
+import { Loader } from "./Loader";
+import { useQuery } from "@tanstack/react-query";
 
-export function PokemonsContainer({
-  data: { results: pokemons },
-}: {
-  data: { results: Pokemon[] };
-}) {
+const fetchPokemons = async (): Promise<Pokemon[]> => {
+  const result = await fetch(
+    "https://pokeapi.co/api/v2/pokemon?limit=151"
+  ).then((res) => res.json());
+  return result.results;
+};
+
+export function Pokemons() {
+  const {
+    data: pokemons = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["pokemons"],
+    queryFn: fetchPokemons,
+  });
   const [caughtPokemons, setCaughtPokemons] = useState<Pokemon[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const { isOnline } = useNetworkStatus();
   const forceRerender = useForceRerender();
 
   let visiblePokemons = pokemons.length
@@ -36,7 +47,7 @@ export function PokemonsContainer({
   };
 
   return (
-    <div>
+    <div className="max-h-screen flex flex-col border-r border-r-slate-300 dark:border-r-slate-600 dark:bg-gray-800 overflow-auto">
       <Header
         caughtPokemonsLength={caughtPokemons.length}
         pokemonsLength={pokemons.length}
@@ -44,29 +55,16 @@ export function PokemonsContainer({
         onChangeSearch={setSearchTerm}
         forceRerender={forceRerender}
       />
-      {visiblePokemons.map((pokemon) => (
-        <PokemonItem
-          key={pokemon.name}
-          pokemon={pokemon}
-          onChange={handlePokemonCaught}
-          disabled={!isOnline}
-          isCaught={caughtPokemons.includes(pokemon)}
-        />
-      ))}
-      {!isOnline ? (
-        <div
-          className="network-status-message"
-          role="status"
-          aria-live="polite"
-        >
-          You're offline
-        </div>
-      ) : null}
+      <Loader isLoading={isLoading} isError={isError}>
+        {visiblePokemons.map((pokemon) => (
+          <PokemonItem
+            key={pokemon.name}
+            pokemon={pokemon}
+            onChange={handlePokemonCaught}
+            isCaught={caughtPokemons.includes(pokemon)}
+          />
+        ))}
+      </Loader>
     </div>
   );
 }
-
-export const PokemonsContainerWithLoader = withLoader(
-  PokemonsContainer,
-  "https://pokeapi.co/api/v2/pokemon?limit=1281"
-);

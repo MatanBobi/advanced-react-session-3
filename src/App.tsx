@@ -1,15 +1,15 @@
-import { PokemonsContainerWithLoader } from "./PokemonsContainer";
 import "./App.css";
-import { NetworkStatusProvider } from "./NetworkStatusProvider";
+import { Pokemons } from "./Pokemons";
+import { OnlineIndicator } from "./OnlineIndicator";
+import { withNetworkStatus } from "./withNetworkStatus";
 
 function App() {
   return (
-    <div className="App">
-      <NetworkStatusProvider>
-        <PokemonsContainerWithLoader />
-      </NetworkStatusProvider>
+    <div className="layout dark:bg-gray-800  dark:text-white h-full">
+      <Pokemons />
+      <OnlineIndicator />
     </div>
   );
 }
 
-export default App;
+export default withNetworkStatus(App);

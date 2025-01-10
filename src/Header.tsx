@@ -12,13 +12,16 @@ export function Header({
   forceRerender: () => void;
 }) {
   return (
-    <>
+    <div className="flex flex-col gap-2 p-3">
       <aside>Uncaught Pokemons: {pokemonsLength - caughtPokemonsLength}</aside>
       <input
+        className="dark:bg-gray-700"
         value={searchTerm}
         onChange={(e) => onChangeSearch(e.target.value)}
       />
-      <button onClick={forceRerender}>Force rerender</button>
-    </>
+      <button className="dark:bg-gray-700" onClick={forceRerender}>
+        Force rerender
+      </button>
+    </div>
   );
 }
