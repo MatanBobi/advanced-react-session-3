@@ -3,14 +3,13 @@ import { matchSorter } from "match-sorter";
 import { Header } from "./Header";
 import { PokemonItem } from "./PokemonItem";
 import { Pokemon } from "./types";
-import { withLoader } from "./withLoader";
 import { useForceRerender } from "./useForceRerender";
 import { Loader } from "./Loader";
 import { useQuery } from "@tanstack/react-query";
 
 const fetchPokemons = async (): Promise<Pokemon[]> => {
   const result = await fetch(
-    "https://pokeapi.co/api/v2/pokemon?limit=151"
+    "https://pokeapi.co/api/v2/pokemon?limit=1281"
   ).then((res) => res.json());
   return result.results;
 };
